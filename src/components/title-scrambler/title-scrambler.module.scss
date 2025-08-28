@@ -1,3 +1,33 @@
-.titleScrambler {
+@property --activeColor {
+  initial-value: 0%;
+  inherits: false;
+  syntax: '<percentage>';
+}
 
+.titleScrambler {
+  cursor: pointer;
+  color: transparent;
+  background: #fe6e00;
+  background-clip: text;
+  transition: --activeColor 1000ms 1000ms ease-in;
+
+  &:hover {
+    color: #fff;
+    background-image: none;
+  }
+}
+
+.timeoutActive {
+  cursor: default;
+  background-image: linear-gradient(to right, #fe6e00 0%, #fe6e00 var(--activeColor), #fff var(--activeColor));
+  --activeColor: 100%;
+
+  &:hover {
+    color: transparent;
+    background-image: linear-gradient(to right, #fe6e00 0%, #fe6e00 var(--activeColor), #fff var(--activeColor));
+  }
+}
+
+.transitionDisabled {
+  transition: none;
 }

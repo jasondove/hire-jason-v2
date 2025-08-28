@@ -8,7 +8,9 @@ const Splash: React.FunctionComponent = () => {
     return (
         <div className={styles.splash}>
             <img src={SplashImg} alt="new york skyline" className={styles.bgImg} />
-            <MessageBox />
+            <div className={styles.splashContent}>
+                <MessageBox />
+            </div>
         </div>
     );
 };

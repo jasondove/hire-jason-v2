@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScramble } from 'use-scramble';
+import classNames from 'classnames';
 
 import { titles, scrambleTimeout } from './title-scrambler.config';
 import styles from './title-scrambler.module.scss';
@@ -10,9 +11,11 @@ interface TitleScramblerProps {
 
 const TitleScrambler: React.FunctionComponent<TitleScramblerProps> = (props) => {
     const { title } = props;
+    const timeout = React.useRef<NodeJS.Timeout>(undefined);
+    const [ isPreTransition, setIsPreTransition ] = React.useState(false);
+    const [ isTimeoutActive, setIsTimeoutActive ] = React.useState(false);
     const [ currentTitle, setCurrentTitle ] = React.useState<string>(title);
     const [ possibleTitles, setPossibleTitles ] = React.useState<string[] | []>([]);
-    const timeout = React.useRef<NodeJS.Timeout>(undefined);
 
     const { ref } = useScramble({
         text: currentTitle,
@@ -29,14 +32,31 @@ const TitleScrambler: React.FunctionComponent<TitleScramblerProps> = (props) => 
         setPossibleTitles(titles.sort(() => 0.5 - Math.random()));
     }, [titles]);
 
-    const handleClick = React.useCallback(() => {
-        clearTimeout(timeout.current);
+    const startTimeout = React.useCallback(() => {
+        timeout.current = setTimeout(() => {
+            setCurrentTitle(title);
+            setIsTimeoutActive(false);
+            setIsPreTransition(true);
+        }, scrambleTimeout);
+        setIsTimeoutActive(true);
+    }, []);
 
+    const endTimeout = React.useCallback(() => {
+        setIsPreTransition(false);
+        clearTimeout(timeout.current);
+        setIsTimeoutActive(false);
+    }, []);
+
+    const handleClick = React.useCallback(() => {
+        if (isTimeoutActive) {
+            return;
+        }
+
+        endTimeout();
         setCurrentTitle(possibleTitles[0]);
         setPossibleTitles((prev) => prev.slice(1));
-
-        timeout.current = setTimeout(() => setCurrentTitle(title), scrambleTimeout);
-    }, [possibleTitles]);
+        startTimeout();
+    }, [isTimeoutActive, possibleTitles]);
 
     React.useEffect(() => {
         if (!possibleTitles.length) {
@@ -45,7 +65,11 @@ const TitleScrambler: React.FunctionComponent<TitleScramblerProps> = (props) => 
     }, [possibleTitles]);
 
     return (
-        <span className={styles.titleScrambler} ref={ref} onClick={handleClick}>
+        <span
+            className={classNames(styles.titleScrambler, { [styles.transitionDisabled]: isPreTransition }, { [styles.timeoutActive]: isTimeoutActive })}
+            onClick={handleClick}
+            ref={ref}
+        >
             { currentTitle }
         </span>
     );

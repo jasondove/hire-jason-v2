@@ -13,9 +13,11 @@
   "dependencies": {
     "@types/node": "^24.3.0",
     "classnames": "^2.5.1",
+    "cobe": "^0.6.4",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-spring": "^10.0.1",
     "use-scramble": "^2.2.15"
   },
   "devDependencies": {

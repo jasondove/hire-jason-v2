@@ -1,0 +1,17 @@
+.locations {
+  position: relative;
+  display: flex;
+  //align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: pink;
+  background: url("./assets/stars.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.locationsContent {
+  width: 1280px;
+  margin: 0 auto;
+}

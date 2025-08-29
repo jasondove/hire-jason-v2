@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "components/header";
 import Splash from "components/splash";
+import Locations from "components/locations";
 
 // import styles from './landing.module.scss';
 
@@ -9,6 +10,7 @@ const Landing: React.FunctionComponent = () => {
         <>
             <Header />
             <Splash />
+            <Locations />
         </>
     );
 };

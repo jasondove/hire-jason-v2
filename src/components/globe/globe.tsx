@@ -2,51 +2,14 @@ import React from 'react';
 import createGlobe from "cobe";
 import { useSpring } from 'react-spring';
 
-import { focusTimeoutDuration, focusSpeed } from './globe.config';
+import { focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
 import styles from './globe.module.scss';
 
 const Globe: React.FunctionComponent = () => {
     const focusTimeout = React.useRef<NodeJS.Timeout>(undefined);
     const focusPhi = React.useRef<number | null>(null);
-    const setFocusPhi = React.useCallback((longitude: number) => {
-        if (focusTimeout.current) {
-            clearTimeout(focusTimeout.current);
-        }
-
-        focusPhi.current = Math.PI - ((longitude * Math.PI) / 180 - Math.PI / 2);
-        // focusPhi.current = longitude;
-        focusTimeout.current = setTimeout(() => {
-            focusPhi.current = null;
-        }, focusTimeoutDuration);
-    }, [focusTimeout]);
-
-
-
-    // const [focusLongVal, setFocusLongVal] = React.useState(null);
-    /*const focusLong = React.useCallback((long) => {
-        if (focusTimeout.current) {
-            clearTimeout(focusTimeout.current);
-        }
-
-        setFocusLongVal(long);
-
-
-        focusTimeout.current = setTimeout(() => {
-            setFocusLongVal(null);
-            console.log('fire');
-        }, globeFocusTimeout);
-    }, [focusTimeout]);*/
-
-    /*React.useEffect(() => {
-        console.log(focusLong.current);
-    }, [focusLong.current]);*/
-
-
-
-
-
     const canvasRef = React.useRef(null);
-    const pointerInteracting = React.useRef(null);
+    const pointerInteracting = React.useRef<number | null>(null);
     const pointerInteractionMovement = React.useRef(0);
 
     const locationToAngles = (lat, long) => {
@@ -64,6 +27,60 @@ const Globe: React.FunctionComponent = () => {
         },
     }));
 
+    const setFocusPhi = React.useCallback((longitude: number) => {
+        if (focusTimeout.current) {
+            clearTimeout(focusTimeout.current);
+        }
+
+        focusPhi.current = Math.PI - ((longitude * Math.PI) / 180 - Math.PI / 2);
+        focusTimeout.current = setTimeout(() => {
+            focusPhi.current = null;
+            api.set({ r: 0 });
+        }, focusTimeoutDuration);
+    }, [focusTimeout]);
+
+    const handlePointerActive = React.useCallback((e) => {
+        if (!canvasRef.current || focusPhi.current) {
+            return;
+        }
+
+        pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
+        canvasRef.current.style.cursor = 'grabbing';
+    }, [focusPhi]);
+
+    const handlePointerInactive = React.useCallback(() => {
+        if (!canvasRef.current) {
+            return;
+        }
+
+        pointerInteracting.current = null;
+        canvasRef.current.style.cursor = 'grab';
+    }, []);
+
+    const handleMouseMove = React.useCallback((e) => {
+        if (!pointerInteracting.current || focusPhi.current) {
+            return;
+        }
+
+        const delta = e.clientX - pointerInteracting.current;
+        pointerInteractionMovement.current = delta;
+        api.start({
+            r: delta / 200,
+        });
+    }, []);
+
+    const handleTouchMove = React.useCallback((e) => {
+        if (!pointerInteracting.current || focusPhi.current) {
+            return;
+        }
+
+        const delta = e.touches[0].clientX - pointerInteracting.current;
+        pointerInteractionMovement.current = delta;
+        api.start({
+            r: delta / 100,
+        });
+    }, []);
+
     React.useEffect(() => {
         if (!canvasRef.current) {
             return;
@@ -71,13 +88,10 @@ const Globe: React.FunctionComponent = () => {
 
         let phi = 0;
         let width = 0;
-        const doublePi = Math.PI * 2;
 
         const onResize = () => canvasRef.current && (width = canvasRef.current.offsetWidth);
-
-        window.addEventListener('resize', onResize);
-
         onResize();
+        window.addEventListener('resize', onResize);
 
         const globe = createGlobe(
             canvasRef.current,
@@ -104,18 +118,11 @@ const Globe: React.FunctionComponent = () => {
                     state.width = width * 2;
                     state.height = width * 2;
 
-                    // Dragging
-                    if (pointerInteracting.current) {
-                        state.phi = phi + r.get();
-                        // console.log('phi 1', state.phi);
-                        return;
-                    }
-
                     // Focus on location
                     if (focusPhi.current) {
                         const distPositive = (focusPhi.current - phi + doublePi) % doublePi;
                         const distNegative = (phi - focusPhi.current + doublePi) % doublePi;
-                        // Control the speed
+
                         if (distPositive < distNegative) {
                             phi += distPositive * focusSpeed;
                         } else {
@@ -123,14 +130,18 @@ const Globe: React.FunctionComponent = () => {
                         }
 
                         state.phi = phi;
-                        // console.log('phi 2', state.phi);
+                        return;
+                    }
+
+                    // Dragging
+                    if (pointerInteracting.current) {
+                        state.phi = phi + r.get();
                         return;
                     }
 
                     // Auto-rotate
                     phi += 0.01;
                     state.phi = phi + r.get();
-                    // console.log('phi 3', state.phi);
                 }
             }
         );
@@ -166,37 +177,11 @@ const Globe: React.FunctionComponent = () => {
             }}>
                 <canvas
                     ref={canvasRef}
-                    onPointerDown={(e) => {
-                        pointerInteracting.current =
-                            e.clientX - pointerInteractionMovement.current;
-                        canvasRef.current.style.cursor = 'grabbing';
-                    }}
-                    onPointerUp={() => {
-                        pointerInteracting.current = null;
-                        canvasRef.current.style.cursor = 'grab';
-                    }}
-                    onPointerOut={() => {
-                        pointerInteracting.current = null;
-                        canvasRef.current.style.cursor = 'grab';
-                    }}
-                    onMouseMove={(e) => {
-                        if (pointerInteracting.current !== null) {
-                            const delta = e.clientX - pointerInteracting.current;
-                            pointerInteractionMovement.current = delta;
-                            api.start({
-                                r: delta / 200,
-                            });
-                        }
-                    }}
-                    onTouchMove={(e) => {
-                        if (pointerInteracting.current !== null && e.touches[0]) {
-                            const delta = e.touches[0].clientX - pointerInteracting.current;
-                            pointerInteractionMovement.current = delta;
-                            api.start({
-                                r: delta / 100,
-                            });
-                        }
-                    }}
+                    onPointerDown={handlePointerActive}
+                    onPointerUp={handlePointerInactive}
+                    onPointerOut={handlePointerInactive}
+                    onMouseMove={handleMouseMove}
+                    onTouchMove={handleTouchMove}
                     style={{
                         width: '100%',
                         height: '100%',

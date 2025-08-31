@@ -2,10 +2,17 @@ import React from 'react';
 import createGlobe from "cobe";
 import { useSpring } from 'react-spring';
 
-import { focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
+import { type Location, focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
 import styles from './globe.module.scss';
 
-const Globe: React.FunctionComponent = () => {
+interface GlobeProps {
+    locations: Location[];
+    focusLocation?: Location;
+}
+
+const Globe: React.FunctionComponent<GlobeProps> = (props) => {
+    const { locations, focusLocation } = props;
+
     const focusTimeout = React.useRef<NodeJS.Timeout>(undefined);
     const focusPhi = React.useRef<number | null>(null);
     const canvasRef = React.useRef(null);
@@ -108,12 +115,10 @@ const Globe: React.FunctionComponent = () => {
                 baseColor: [1, 1, 1],
                 markerColor: [251 / 255, 100 / 255, 21 / 255],
                 glowColor: [1.2, 1.2, 1.2],
-                markers: [
-                    { location: [37.78, -122.412], size: 0.1},
-                    { location: [52.52, 13.405], size: 0.1},
-                    { location: [35.676, 139.65], size: 0.1},
-                    { location: [-34.60, -58.38], size: 0.1},
-                ],
+                markers: locations.map((loc) => ({
+                    location: [loc.latitude, loc.longitude],
+                    size: 0.1,
+                })),
                 onRender: (state) => {
                     state.width = width * 2;
                     state.height = width * 2;
@@ -145,7 +150,6 @@ const Globe: React.FunctionComponent = () => {
                 }
             }
         );
-
 
         return () => {
             globe.destroy();

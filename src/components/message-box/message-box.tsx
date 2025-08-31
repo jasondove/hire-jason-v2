@@ -1,20 +1,19 @@
-import React from 'react';
-import TitleScrambler from "components/title-scrambler";
-import LinkGroup from "components/link-group";
+import React, {type ReactNode} from 'react';
 
 import styles from './message-box.module.scss';
+import classNames from "classnames";
 
-const MessageBox: React.FunctionComponent = () => {
+interface MessageBoxProps {
+    children: ReactNode;
+    className?: string;
+}
+
+const MessageBox: React.FunctionComponent<MessageBoxProps> = (props) => {
+    const { children, className } = props;
+
     return (
-        <div className={styles.messageBox}>
-            <p className={styles.text}>
-                Hi, my name is Jason Dove<br />and <TitleScrambler title="I'm a web developer" />.
-            </p>
-            <p className={styles.smallText}>
-                I'm a frontend engineer with decades of experience building beautiful and performant websites, and I'd
-                like to work at your company.
-            </p>
-            <LinkGroup />
+        <div className={classNames(styles.messageBox, className)}>
+            { children }
         </div>
     );
 };

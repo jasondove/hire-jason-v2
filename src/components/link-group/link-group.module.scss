@@ -1,7 +1,10 @@
 .linkGroup {
+  position: sticky;
+  bottom: 0;
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 72px;
+  //background-color: blue;
 }
 
 .link {
@@ -9,12 +12,16 @@
   width: 48px;
   height: 48px;
   margin-right: 8px;
-  overflow: hidden;
+  //overflow: hidden;
   border-radius: 8px;
 
   &:hover {
     border: 1px solid blue;
   }
+}
+
+.hidden {
+  opacity: 0;
 }
 
 .linkImg {

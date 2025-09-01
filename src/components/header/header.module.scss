@@ -1,4 +1,13 @@
 .header {
   width: 100%;
-  background-color: blue;
+  height: 72px;
+  position: absolute;
+  top: -72px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.headerContent {
+  width: 1280px;
+  margin: 0 auto;
+  transform: translateX(22px);
 }

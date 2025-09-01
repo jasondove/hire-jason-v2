@@ -7,11 +7,12 @@ import styles from './globe.module.scss';
 
 interface GlobeProps {
     locations: Location[];
-    focusLocation?: Location;
+    focusLocation: Location | undefined;
+    onFocusLocationComplete: () => void;
 }
 
 const Globe: React.FunctionComponent<GlobeProps> = (props) => {
-    const { locations, focusLocation } = props;
+    const { locations, focusLocation, onFocusLocationComplete } = props;
 
     const focusTimeout = React.useRef<NodeJS.Timeout>(undefined);
     const focusPhi = React.useRef<number | null>(null);
@@ -19,10 +20,9 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     const pointerInteracting = React.useRef<number | null>(null);
     const pointerInteractionMovement = React.useRef(0);
 
-    const locationToAngles = (lat, long) => {
+    /*const locationToAngles = (lat, long) => {
         return [Math.PI - ((long * Math.PI) / 180 - Math.PI / 2), (lat * Math.PI) / 180];
-    }
-    const focusRef = React.useRef([0, 0]);
+    }*/
 
     const [{ r }, api] = useSpring(() => ({
         r: 0,
@@ -34,21 +34,32 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
         },
     }));
 
-    const setFocusPhi = React.useCallback((longitude: number) => {
+    const setFocus = React.useCallback((location: Location) => {
         if (focusTimeout.current) {
             clearTimeout(focusTimeout.current);
         }
 
-        focusPhi.current = Math.PI - ((longitude * Math.PI) / 180 - Math.PI / 2);
+        focusPhi.current = Math.PI - ((location.longitude * Math.PI) / 180 - Math.PI / 2);
         focusTimeout.current = setTimeout(() => {
-            focusPhi.current = null;
-            api.set({ r: 0 });
+            completeFocus();
         }, focusTimeoutDuration);
     }, [focusTimeout]);
 
+    const completeFocus = React.useCallback(() => {
+        focusPhi.current = null;
+        // onFocusLocationComplete();
+        api.set({ r: 0 });
+    }, []);
+
     const handlePointerActive = React.useCallback((e) => {
-        if (!canvasRef.current || focusPhi.current) {
+        if (!canvasRef.current) {
             return;
+        }
+
+        if (focusTimeout.current) {
+            // completeFocus();
+            focusPhi.current = null;
+            onFocusLocationComplete();
         }
 
         pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
@@ -155,23 +166,16 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
             globe.destroy();
             window.removeEventListener('resize', onResize);
         }
-    }, []);
+    }, [locations]);
+
+    React.useEffect(() => {
+        if (focusLocation) {
+            setFocus(focusLocation);
+        }
+    }, [focusLocation]);
 
     return (
         <div className={styles.globe}>
-            <button onClick={() => {
-                focusRef.current = locationToAngles(35.676, 139.65)
-            }}>📍 Tokyo</button>
-            <button onClick={() => {
-                setFocusPhi(139.65);
-            }}>📍 Tokyo 2</button>
-            <button onClick={() => {
-                focusRef.current = locationToAngles(37.78, -122.412)
-            }}>📍 San Francisco</button>
-            <button onClick={() => {
-                focusRef.current = locationToAngles(-34.60, -58.38)
-            }}>📍 Buenos Aires</button>
-
             <div style={{
                 width: '100%',
                 maxWidth: 600,
@@ -199,4 +203,5 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     );
 };
 
-export default Globe;
+// export default Globe;
+export default React.memo(Globe);

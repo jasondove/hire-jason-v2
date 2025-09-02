@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from "classnames";
 import { type Position, type Location } from 'components/globe/globe.config';
 
 import styles from './location-tabs.module.scss';
@@ -23,7 +24,7 @@ const LocationTabs: React.FunctionComponent<LocationTabsProps> = (props) => {
     }, []);
 
     const renderLocation = React.useCallback((location: Location) => {
-        return <div onClick={handleLocationClick(location)} key={location.name}>{ location.name }</div>;
+        return <div className={styles.locationItem} onClick={handleLocationClick(location)} key={location.name}>{ location.name }</div>;
     }, []);
 
     return (
@@ -31,11 +32,17 @@ const LocationTabs: React.FunctionComponent<LocationTabsProps> = (props) => {
             <div className={styles.tabs}>
                 {names.map((tab, index) => {
                     return (
-                        <div onClick={handleTabClick(index)} key={tab}>{ tab }</div>
+                        <div
+                            className={classNames(styles.tabItem, { [styles.active]: activeTab === index })}
+                            onClick={handleTabClick(index)}
+                            key={tab}
+                        >
+                            { tab }
+                        </div>
                     );
                 })}
             </div>
-            <div>
+            <div className={styles.locations}>
                 {locations.map((locations: Location[], index) => {
                     return locations.map((location: Location) => (
                         activeTab === index && renderLocation(location)

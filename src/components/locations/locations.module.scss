@@ -1,20 +1,32 @@
+@use "src/styles/_mixins";
+
 .locations {
   position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
-  height: calc(100vh - 72px);
-  background-color: pink;
+  height: calc(100vh - var(--header-height));
   background: url("./assets/stars.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .locationsContent {
-  width: 1280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--page-width);
   margin: 0 auto;
 }
 
 .messageBox {
-  margin: 0 auto;
+  max-width: 600px;
+}
+
+.messageHeader {
+  @include mixins.text-large;
+}
+
+.messageText {
+  @include mixins.text-regular;
 }

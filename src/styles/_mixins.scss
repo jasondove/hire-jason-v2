@@ -1,0 +1,13 @@
+@mixin text-regular {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-regular);
+  line-height: var(--line-height-regular);
+}
+
+@mixin text-large {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+}

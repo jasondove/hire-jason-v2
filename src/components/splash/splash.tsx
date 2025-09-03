@@ -20,15 +20,21 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
             <img src={SplashImg} alt="new york skyline" className={styles.bgImg} style={{ opacity: `${opacity}%` }} />
             <div className={styles.splashContent} style={{ opacity: `${opacity}%` }}>
                 <MessageBox className={styles.messageBox} >
-                    <p className={styles.text}>
-                        Hi, my name is Jason Dove<br />and <TitleScrambler title="I'm a web developer" />.
+                    <p className={styles.intro}>
+                        Hi, my name is
                     </p>
-                    <p className={styles.smallText}>
-                        I'm a frontend engineer with decades of experience building beautiful and performant websites, and I'd
-                        like to work at your company.<br/><br />
+                    <p className={styles.name}>
+                        Jason Dove.
+                    </p>
+                    <p className={styles.title}>
+                        <TitleScrambler title="I'm a web developer." />
+                    </p>
+                    <p className={styles.description}>
+                        I have over a decade of experience building beautiful and<br />
+                        performant websites, and I'd like to work with you.
                     </p>
                     <div>
-                        {<LinkGroup ref={linksRef} isVisible={isLinksVisible} />}
+                        <LinkGroup ref={linksRef} isVisible={isLinksVisible} />
                     </div>
                 </MessageBox>
             </div>

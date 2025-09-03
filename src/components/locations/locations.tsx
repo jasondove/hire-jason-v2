@@ -38,9 +38,9 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                     onFocusLocationComplete={handleLocationFocusComplete}
                 />
                 <MessageBox className={styles.messageBox}>
-                    <h3 className={styles.messageHeader}>Brooklyn-based, with a global reach.</h3>
+                    <h3 className={styles.messageHeader}>I live in Brooklyn.<br />My colleagues live around the world.</h3>
                     <p className={styles.messageText}>
-                        With nearly a decade of experience working remotely, I've had the chance to collaborate with talented people from around the world.
+                        Remote work isn't remotely an issue. Global projects deserve global coverage.
                     </p>
                     <LocationTabs
                         names={['Dev / Ops', 'Product / Business', 'Design / QA']}

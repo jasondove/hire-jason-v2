@@ -25,6 +25,8 @@
 
 .messageHeader {
   @include mixins.text-large;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .messageText {

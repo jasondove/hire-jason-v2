@@ -1,0 +1,38 @@
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+}
+
+.linkItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 4px;
+  margin-right: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    animation: bounce 600ms ease-out;
+  }
+}
+
+.forceAnimation {
+  animation: bounce 600ms ease-out;
+}
+
+.linkImg {
+  width: 100%;
+  height: 100%;
+}
+

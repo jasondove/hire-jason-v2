@@ -1,12 +1,10 @@
 import React, {type Ref} from 'react';
+import Header from 'components/header';
 import Globe from 'components/globe';
-import MessageBox from 'components/message-box';
 import { type Location } from 'components/globe/globe.config';
 
-import { locationsDevOps, locationsProductBusiness, locationsDesignQa } from './locations.config';
+import { locations } from './locations.config';
 import styles from './locations.module.scss';
-import LocationTabs from "components/location-tabs";
-import Header from "components/header";
 
 interface LocationsProps {
     linksRef: Ref<any>;
@@ -17,37 +15,48 @@ interface LocationsProps {
 const Locations: React.FunctionComponent<LocationsProps> = (props) => {
     const { linksRef, isLinksVisible, isHeaderInPlace } = props;
 
-    // @todo: useState causes the globe to rerender, which looks a little janky
+    // @todo: React.setState causes the globe to rerender, which looks a little janky. Same with scrolling.
     const [focusLocation, setFocusLocation] = React.useState<Location | undefined>(undefined);
 
-    const handleLocationClick = React.useCallback((location: Location) => {
+    const handleLocationClick = React.useCallback((location: Location) => () => {
         setFocusLocation(location);
     }, [focusLocation]);
 
     const handleLocationFocusComplete = React.useCallback(() => {
+        console.log('complete');
         setFocusLocation(undefined);
-    }, [focusLocation]);
+    }, []);
 
     return (
         <div className={styles.locations}>
             <Header linksRef={linksRef} isVisible={isLinksVisible} isInPlace={isHeaderInPlace} />
             <div className={styles.locationsContent}>
-                <Globe
-                    locations={[...locationsDevOps, ...locationsProductBusiness, ...locationsDesignQa]}
-                    focusLocation={focusLocation}
-                    onFocusLocationComplete={handleLocationFocusComplete}
-                />
-                <MessageBox className={styles.messageBox}>
-                    <h3 className={styles.messageHeader}>I live in Brooklyn.<br />My colleagues live around the world.</h3>
-                    <p className={styles.messageText}>
-                        Remote work isn't remotely an issue. Global projects deserve global coverage.
-                    </p>
-                    <LocationTabs
-                        names={['Dev / Ops', 'Product / Business', 'Design / QA']}
-                        locations={[locationsDevOps, locationsProductBusiness, locationsDesignQa]}
-                        onLocationClick={handleLocationClick}
+                <div className={styles.globeContainer}>
+                    <Globe
+                        locations={locations}
+                        focusLocation={focusLocation}
+                        onFocusLocationComplete={handleLocationFocusComplete}
                     />
-                </MessageBox>
+                </div>
+                <div className={styles.messageBox}>
+                    <h3 className={styles.messageHeader}>I'm in Brooklyn.<br />My colleagues are around the world.</h3>
+                    <p className={styles.messageText}>
+                        Remote work isn't remotely an issue. I've worked with talented people from everywhere:
+                    </p>
+                    <div>
+                        {locations.map((loc) => {
+                            return (
+                                <React.Fragment key={loc.name}>
+                                    <span className={styles.locationItem} onClick={handleLocationClick(loc)}>
+                                        {/*{loc.name} &middot; {loc.position}*/}
+                                        {loc.name}
+                                    </span>
+                                    <br />
+                                </React.Fragment>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     );

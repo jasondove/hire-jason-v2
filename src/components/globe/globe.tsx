@@ -13,16 +13,11 @@ interface GlobeProps {
 
 const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     const { locations, focusLocation, onFocusLocationComplete } = props;
-
     const focusTimeout = React.useRef<NodeJS.Timeout>(undefined);
     const focusPhi = React.useRef<number | null>(null);
     const canvasRef = React.useRef(null);
     const pointerInteracting = React.useRef<number | null>(null);
     const pointerInteractionMovement = React.useRef(0);
-
-    /*const locationToAngles = (lat, long) => {
-        return [Math.PI - ((long * Math.PI) / 180 - Math.PI / 2), (lat * Math.PI) / 180];
-    }*/
 
     const [{ r }, api] = useSpring(() => ({
         r: 0,
@@ -37,6 +32,7 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     const setFocus = React.useCallback((location: Location) => {
         if (focusTimeout.current) {
             clearTimeout(focusTimeout.current);
+            focusTimeout.current = undefined;
         }
 
         focusPhi.current = Math.PI - ((location.longitude * Math.PI) / 180 - Math.PI / 2);
@@ -47,7 +43,7 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
 
     const completeFocus = React.useCallback(() => {
         focusPhi.current = null;
-        // onFocusLocationComplete();
+        onFocusLocationComplete();
         api.set({ r: 0 });
     }, []);
 
@@ -57,9 +53,9 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
         }
 
         if (focusTimeout.current) {
-            // completeFocus();
-            focusPhi.current = null;
-            onFocusLocationComplete();
+            clearTimeout(focusTimeout.current);
+            focusTimeout.current = undefined;
+            completeFocus();
         }
 
         pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
@@ -203,5 +199,4 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     );
 };
 
-// export default Globe;
-export default React.memo(Globe);
+export default Globe;

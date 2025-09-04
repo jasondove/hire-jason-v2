@@ -27,12 +27,32 @@
   }
 }
 
+
 .forceAnimation {
   animation: bounce 600ms ease-out;
 }
 
 .linkImg {
-  width: 100%;
-  height: 100%;
-}
 
+  &.gitHub {
+    width: 42px;
+    height: 42px;
+  }
+
+  &.linkedIn {
+    width: 38px;
+    height: 38px;
+    transform: translateX(2px);
+  }
+
+  &.indeed {
+    width: 34px;
+    height: 34px;
+    transform: translateX(-3px);
+  }
+
+  &.peerlist {
+    width: 36px;
+    height: 36px;
+  }
+}

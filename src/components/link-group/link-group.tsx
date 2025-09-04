@@ -28,6 +28,7 @@ const LinkGroup: React.FunctionComponent<LinkGroupProps> = (props) => {
                     img={item.img}
                     alt={item.alt}
                     link={item.link}
+                    className={item.className}
                     key={item.alt}
                     forceAnimation={shouldAnimate}
                     forceAnimationDelay={animationDelayFactor * index}

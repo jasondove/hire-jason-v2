@@ -13,22 +13,44 @@
 
 .locationsContent {
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   align-items: center;
   width: var(--page-width);
+  //margin: var(--content-top-margin) auto 0;
   margin: 0 auto;
+  color: #fff;
+}
+
+.globeContainer {
+  flex-basis: 50%;
 }
 
 .messageBox {
+  flex-basis: 50%;
   max-width: 600px;
+  text-align: right;
 }
 
 .messageHeader {
   @include mixins.text-large;
-  text-align: center;
+  //text-align: center;
   margin-bottom: 8px;
 }
 
 .messageText {
   @include mixins.text-regular;
+  max-width: 400px;
+  margin-bottom: 8px;
+  margin-left: auto;
+  text-align: right;
+}
+
+.locationItem {
+  margin-bottom: 4px;
+  //display: inline-block;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--color-highlight);
+  }
 }

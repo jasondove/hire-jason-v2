@@ -8,8 +8,14 @@
 
 .headerContent {
   width: var(--page-width);
+  max-width: 100%;
   margin: 0 auto;
-  transform: translateX(22px);
+  padding: 0 var(--page-padding-x);
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 0 var(--page-padding-x-mobile);
+  }
 }
 
 .inPlace {

@@ -1,6 +1,7 @@
 import React from 'react';
 import createGlobe from "cobe";
 import { useSpring } from 'react-spring';
+import { useIsVisible } from 'react-is-visible';
 
 import { type Location, focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
 import styles from './globe.module.scss';
@@ -18,6 +19,7 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
     const canvasRef = React.useRef(null);
     const pointerInteracting = React.useRef<number | null>(null);
     const pointerInteractionMovement = React.useRef(0);
+    const isGlobeVisible = useIsVisible(canvasRef);
 
     const [{ r }, api] = useSpring(() => ({
         r: 0,
@@ -158,11 +160,13 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
             }
         );
 
+        globe.toggle(isGlobeVisible);
+
         return () => {
             globe.destroy();
             window.removeEventListener('resize', onResize);
         }
-    }, [locations]);
+    }, [isGlobeVisible]);
 
     React.useEffect(() => {
         if (focusLocation) {

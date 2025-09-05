@@ -16,25 +16,46 @@
   //flex-direction: column;
   align-items: center;
   width: var(--page-width);
+  max-width: 100%;
   //margin: var(--content-top-margin) auto 0;
   margin: 0 auto;
   color: #fff;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 }
 
 .globeContainer {
   flex-basis: 50%;
+
+  @media (max-width: 480px) {
+    flex-basis: 100%;
+    width: 100%;
+  }
 }
 
 .messageBox {
   flex-basis: 50%;
   max-width: 600px;
   text-align: right;
+
+  @media (max-width: 480px) {
+    flex-basis: 100%;
+    width: 100%;
+  }
 }
 
 .messageHeader {
   @include mixins.text-large;
-  //text-align: center;
+
   margin-bottom: 8px;
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+  }
 }
 
 .messageText {
@@ -43,6 +64,23 @@
   margin-bottom: 8px;
   margin-left: auto;
   text-align: right;
+
+  @media (max-width: 480px) {
+    margin: 0 16px;
+    text-align: center;
+  }
+}
+
+.locationsListSetup {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.locationsList {
+  @media (max-width: 480px) {
+    display: none;
+  }
 }
 
 .locationItem {

@@ -17,6 +17,7 @@
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-is-visible": "^1.2.0",
     "react-spring": "^10.0.1",
     "use-scramble": "^2.2.15"
   },

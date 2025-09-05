@@ -41,9 +41,9 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                 <div className={styles.messageBox}>
                     <h3 className={styles.messageHeader}>I'm in Brooklyn.<br />My colleagues are around the world.</h3>
                     <p className={styles.messageText}>
-                        Remote work isn't remotely an issue. I've worked with talented people from everywhere:
+                        Remote work isn't remotely an issue. <span className={styles.locationsListSetup}>I've worked with talented people from everywhere:</span>
                     </p>
-                    <div>
+                    <div className={styles.locationsList}>
                         {locations.map((loc) => {
                             return (
                                 <React.Fragment key={loc.name}>

@@ -24,16 +24,17 @@ const LinkGroup: React.FunctionComponent<LinkGroupProps> = (props) => {
     return (
         <div className={classNames(styles.linkGroup, { [styles.hidden]: !isVisible })} ref={ref}>
             {linkItems.map((item, index) => (
-                <LinkItem
-                    img={item.img}
-                    alt={item.alt}
-                    link={item.link}
-                    className={item.className}
-                    key={item.alt}
-                    forceAnimation={shouldAnimate}
-                    forceAnimationDelay={animationDelayFactor * index}
-                    onForceAnimationEnd={index === linkItems.length - 1 && handleAnimationComplete || undefined}
-                />
+                <div className={styles.linkItemContainer} key={item.alt}>
+                    <LinkItem
+                        img={item.img}
+                        alt={item.alt}
+                        link={item.link}
+                        className={item.className}
+                        forceAnimation={shouldAnimate}
+                        forceAnimationDelay={animationDelayFactor * index}
+                        onForceAnimationEnd={index === linkItems.length - 1 && handleAnimationComplete || undefined}
+                    />
+                </div>
             ))}
         </div>
     );

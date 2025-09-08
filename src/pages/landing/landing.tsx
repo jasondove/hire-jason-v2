@@ -48,7 +48,6 @@ const Landing: React.FunctionComponent = () => {
 
     return (
         <>
-            {/*<Header />*/}
             <Splash opacity={splashOpacity} linksRef={linksSplashRef} isLinksVisible={!isHeaderLinksOnTop} />
             <Locations linksRef={linksHeaderRef} isLinksVisible={isHeaderLinksOnTop} isHeaderInPlace={isHeaderInPlace} />
         </>

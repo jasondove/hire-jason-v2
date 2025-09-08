@@ -1,9 +1,13 @@
+@use "src/styles/_mixins";
+
 .splash {
   position: sticky;
   top: 0;
   display: flex;
   width: 100%;
   height: 100vh;
+  //background-color: #c4d6e7;
+  background-color: #8eb0d1 ;
 }
 
 .bgImg {
@@ -16,6 +20,21 @@
   transition: opacity 200ms;
 }
 
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.2) 0,
+          rgba(0, 0, 0, 0.1) 30%,
+          rgba(0, 0, 0, 0) 50%
+  );
+  z-index: 1;
+}
+
 .splashContent {
   width: var(--page-width);
   max-width: 100%;
@@ -23,6 +42,7 @@
   padding: 0 var(--page-padding-x);
   box-sizing: border-box;
   transition: opacity 200ms;
+  z-index: 2;
 
   @media (max-width: 480px) {
     padding: 0 var(--page-padding-x-mobile);
@@ -36,10 +56,8 @@
 }
 
 .intro {
-  margin-top: 0;
-  margin-bottom: 16px;
-  font-size: 20px;
-  line-height: 22px;
+  @include mixins.text-regular;
+  margin-bottom: 12px;
 
   @media (max-width: 480px) {
     margin-bottom: 8px;
@@ -50,11 +68,10 @@
 }
 
 .name {
-  margin-top: 0;
+  @include mixins.text-large;
   margin-bottom: 4px;
-  font-size: 60px;
-  line-height: 64px;
-  
+  color: var(--color-highlight-1);
+
   @media (max-width: 480px) {
     margin-bottom: 0;
     font-size: 48px;
@@ -64,10 +81,8 @@
 }
 
 .title {
-  margin-top: 0;
-  margin-bottom: 16px;
-  font-size: 60px;
-  line-height: 64px;
+  @include mixins.text-large;
+  margin-bottom: 12px;
 
   @media (max-width: 480px) {
     font-size: 32px;
@@ -77,11 +92,9 @@
 }
 
 .description {
-  margin-top: 0;
+  @include mixins.text-regular;
   margin-bottom: 24px;
-  font-size: 18px;
-  line-height: 20px;
-  max-width: 500px;
+  max-width: 600px;
 
   @media (max-width: 480px) {
     font-size: 16px;

@@ -1,0 +1,57 @@
+@property --activeColor {
+  initial-value: 0%;
+  inherits: false;
+  syntax: '<percentage>';
+}
+
+.hoverText {
+  position: relative;
+}
+
+.text {
+  --color-default: #fff;
+  --activeColor: 0%;
+
+  position: relative;
+  text-decoration: underline;
+  cursor: pointer;
+  color: transparent;
+  background-image: linear-gradient(
+          to top,
+          var(--color-highlight-1) 0%,
+          var(--color-highlight-1) var(--activeColor),
+          var(--color-default) var(--activeColor)
+  );
+  background-clip: text;
+  transition: --activeColor 800ms;
+  z-index: 10;
+}
+
+.decoration {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  height: 2px;
+  width: calc(100% - 8px);
+  background-color: var(--color-highlight-1);
+  opacity: 1;
+  transition: opacity 800ms 200ms;
+  z-index: 1;
+}
+
+.hoverText:hover {
+  .text {
+    --activeColor: 100%;
+    background-image: linear-gradient(
+            to top,
+            var(--color-highlight-1) 0%,
+            var(--color-highlight-1) var(--activeColor),
+            var(--color-default) var(--activeColor)
+    );
+  }
+
+  .decoration {
+    opacity: 0;
+    transition: opacity 500ms;
+  }
+}

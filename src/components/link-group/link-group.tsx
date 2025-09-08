@@ -19,7 +19,7 @@ const LinkGroup: React.FunctionComponent<LinkGroupProps> = (props) => {
         if (shouldAnimate) {
             onAnimationComplete();
         }
-    }, [shouldAnimate]);
+    }, [shouldAnimate, onAnimationComplete]);
 
     return (
         <div className={classNames(styles.linkGroup, { [styles.hidden]: !isVisible })} ref={ref}>

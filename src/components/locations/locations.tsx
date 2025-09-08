@@ -1,9 +1,11 @@
 import React, {type Ref} from 'react';
 import Header from 'components/header';
 import Globe from 'components/globe';
+import HoverText from 'components/hover-text';
+import TravelTag from 'components/travel-tag';
 import { type Location } from 'components/globe/globe.config';
 
-import { locations } from './locations.config';
+import { myLocation, locations } from './locations.config';
 import styles from './locations.module.scss';
 
 interface LocationsProps {
@@ -14,18 +16,37 @@ interface LocationsProps {
 
 const Locations: React.FunctionComponent<LocationsProps> = (props) => {
     const { linksRef, isLinksVisible, isHeaderInPlace } = props;
-
-    // @todo: React.setState causes the globe to rerender, which looks a little janky. Same with scrolling.
+    const [possibleLocations, setPossibleLocations] = React.useState<Location[]>([]);
     const [focusLocation, setFocusLocation] = React.useState<Location | undefined>(undefined);
 
     const handleLocationClick = React.useCallback((location: Location) => () => {
-        setFocusLocation(location);
+        if (location) {
+            setFocusLocation(location);
+            return;
+        }
+
+        setFocusLocation(possibleLocations[0]);
+        setPossibleLocations((prev) => prev.slice(1));
     }, [focusLocation]);
 
+    const handleRandomLocationClick = React.useCallback(() => {
+        setFocusLocation(possibleLocations[0]);
+        setPossibleLocations((prev) => prev.slice(1));
+    }, [possibleLocations, focusLocation]);
+
     const handleLocationFocusComplete = React.useCallback(() => {
-        console.log('complete');
         setFocusLocation(undefined);
     }, []);
+
+    const reloadLocations = React.useCallback(() => {
+        setPossibleLocations(locations.sort(() => 0.5 - Math.random()));
+    }, [locations]);
+
+    React.useEffect(() => {
+        if (!possibleLocations.length) {
+            reloadLocations();
+        }
+    }, [possibleLocations]);
 
     return (
         <div className={styles.locations}>
@@ -39,23 +60,18 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                     />
                 </div>
                 <div className={styles.messageBox}>
-                    <h3 className={styles.messageHeader}>I'm in Brooklyn.<br />My colleagues are around the world.</h3>
+                    <h3 className={styles.messageHeader}>
+                        I'm in <HoverText onClick={handleLocationClick(myLocation)}>Brooklyn.</HoverText>
+                        <br />My colleagues are{' '}
+                        <HoverText onClick={handleRandomLocationClick}>around the world.</HoverText>
+                    </h3>
                     <p className={styles.messageText}>
-                        Remote work isn't remotely an issue. <span className={styles.locationsListSetup}>I've worked with talented people from everywhere:</span>
+                        <span>Remote work isn't remotely an issue. </span>
+                        <span className={styles.locationsListSetup}>
+                            I've worked with talented people from all over.
+                        </span>
                     </p>
-                    <div className={styles.locationsList}>
-                        {locations.map((loc) => {
-                            return (
-                                <React.Fragment key={loc.name}>
-                                    <span className={styles.locationItem} onClick={handleLocationClick(loc)}>
-                                        {/*{loc.name} &middot; {loc.position}*/}
-                                        {loc.name}
-                                    </span>
-                                    <br />
-                                </React.Fragment>
-                            );
-                        })}
-                    </div>
+                    <TravelTag location={focusLocation?.name || ''} position={focusLocation?.position || ' '} />
                 </div>
             </div>
         </div>

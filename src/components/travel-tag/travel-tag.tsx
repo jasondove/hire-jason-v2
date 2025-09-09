@@ -2,6 +2,7 @@ import React from 'react';
 import TextScrambler from 'components/text-scrambler';
 
 import styles from './travel-tag.module.scss';
+import classNames from "classnames";
 
 interface TravelTagProps {
     location: string;
@@ -18,7 +19,7 @@ const TravelTag: React.FunctionComponent<TravelTagProps> = (props) => {
             <div className={styles.travelTagContent}>
                 <div className={styles.fieldContainer}>
                     <div className={styles.fieldLabel}>Location:</div>
-                    <div className={styles.fieldValue}>
+                    <div className={classNames(styles.fieldValue, { [styles.smallText]: location.length > 20 })}>
                         <TextScrambler>{ location }</TextScrambler>
                     </div>
                 </div>

@@ -2,10 +2,12 @@
   display: flex;
   align-items: center;
   max-width: 300px;
-  height: 72px;
+  height: var(--header-height);
 
   @media (max-width: 480px) {
-    max-width: 100%;
+    max-width: 240px;
+    height: var(--header-height-mobile);
+    margin: 0 auto;
   }
 }
 

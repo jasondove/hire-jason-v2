@@ -61,9 +61,15 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                 </div>
                 <div className={styles.messageBox}>
                     <h3 className={styles.messageHeader}>
-                        I'm in <HoverText onClick={handleLocationClick(myLocation)}>Brooklyn.</HoverText>
-                        <br />My colleagues are{' '}
-                        <HoverText onClick={handleRandomLocationClick}>around the world.</HoverText>
+                        <div>
+                            I'm in <HoverText onClick={handleLocationClick(myLocation)}>Brooklyn.</HoverText>
+                        </div>
+                        <div>
+                            My colleagues are
+                        </div>
+                        <div>
+                            <HoverText onClick={handleRandomLocationClick}>around the world.</HoverText>
+                        </div>
                     </h3>
                     <p className={styles.messageText}>
                         <span>Remote work isn't remotely an issue. </span>

@@ -1,10 +1,16 @@
 const defaultTitle = "I'm a web developer.";
 
 const titles: string[] = [
-    "I'm a top-notch Googler.",
-    "I'm a Smash Bros champion.",
-    'I can do a kickflip.',
+    "I'm a great Googler.",
     "I'm a backup copywriter.",
+    "I'm a design cheerleader.",
+    "I'm a pixel perfectionist.",
+    "I'm an element inspector.",
+    "I'm a Storybook author.",
+    "I mock service workers.",
+    "I appreciate a good Jest.",
+    "I pay my technical debts.",
+    "I'll git well soon.",
 ];
 
 const scrambleTimeout = 2000; // ms

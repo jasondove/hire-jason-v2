@@ -3,12 +3,7 @@ import HoverText from 'components/hover-text';
 import TextScrambler from 'components/text-scrambler';
 import LinkGroup from 'components/link-group';
 
-// import SplashImg from './assets/1.png';
-// import SplashImg from './assets/2.png';
-import SplashImg from './assets/3.png';
-// import SplashImg from './assets/4.png';
-// import SplashImg from './assets/5.png';
-// import SplashImg from './assets/6.png';
+import SplashBg from './assets/SplashBg.png';
 import { defaultTitle, titles, scrambleTimeout } from './splash.config';
 import styles from './splash.module.scss';
 
@@ -23,6 +18,7 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
     const [ possibleTitles, setPossibleTitles ] = React.useState<string[]>([]);
     const [ isTimeoutActive, setIsTimeoutActive ] = React.useState(false);
     const [ currentTitle, setCurrentTitle ] = React.useState<string>(defaultTitle);
+    const [shouldAnimateLinks, setShouldAnimateLinks] = React.useState(false);
     const timeout = React.useRef<NodeJS.Timeout>(undefined);
 
     const startTimeout = React.useCallback(() => {
@@ -39,10 +35,6 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
     }, []);
 
     const handleTitleClick = React.useCallback(() => {
-        if (isTimeoutActive) {
-            return;
-        }
-
         endTimeout();
         setCurrentTitle(possibleTitles[0]);
         setPossibleTitles((prev) => prev.slice(1));
@@ -50,9 +42,16 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
     }, [isTimeoutActive, possibleTitles]);
 
     const reloadTitles = React.useCallback(() => {
-        // This is not a great sort and shouldn't be used for anything important
         setPossibleTitles(titles.sort(() => 0.5 - Math.random()));
     }, [titles]);
+
+    const handleNameClick = React.useCallback(() => {
+        setShouldAnimateLinks(true);
+    }, []);
+
+    const handleLinksAnimationComplete = React.useCallback(() => {
+        setShouldAnimateLinks(false);
+    }, []);
 
     React.useEffect(() => {
         if (!possibleTitles.length) {
@@ -62,7 +61,7 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
 
     return (
         <div className={styles.splash}>
-            <img src={SplashImg} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImg} style={{ opacity: `${opacity}%` }} />
+            <img src={SplashBg} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImg} style={{ opacity: `${opacity}%` }} />
             <div className={styles.gradient} style={{ opacity: `${opacity}%` }}/>
             <div className={styles.splashContent} style={{ opacity: `${opacity}%` }}>
                 <div className={styles.messageBox} >
@@ -70,7 +69,7 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
                         Hi, my name is
                     </p>
                     <p className={styles.name}>
-                        <HoverText>Jason Dove.</HoverText>
+                        <HoverText onClick={handleNameClick}>Jason Dove.</HoverText>
                     </p>
                     <p className={styles.title}>
                         <HoverText onClick={handleTitleClick}>
@@ -81,7 +80,12 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
                         I have over a decade of experience building beautiful and performant websites, and I'd like to work with you.
                     </p>
                     <div>
-                        <LinkGroup ref={linksRef} isVisible={isLinksVisible} shouldAnimate={false} onAnimationComplete={() => {}} />
+                        <LinkGroup
+                            ref={linksRef}
+                            isVisible={isLinksVisible}
+                            shouldAnimate={shouldAnimateLinks}
+                            onAnimationComplete={handleLinksAnimationComplete}
+                        />
                     </div>
                 </div>
             </div>

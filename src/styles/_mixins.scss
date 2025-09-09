@@ -5,9 +5,23 @@
   line-height: var(--line-height-regular);
 }
 
+@mixin text-regular-mobile {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-regular-mobile);
+  line-height: var(--line-height-regular-mobile);
+}
+
 @mixin text-large {
   margin-top: 0;
   margin-bottom: 0;
   font-size: var(--font-size-large);
   line-height: var(--line-height-large);
+}
+
+@mixin text-large-mobile {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-large-mobile);
+  line-height: var(--line-height-large-mobile);
 }

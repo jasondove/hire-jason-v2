@@ -3,7 +3,7 @@ import createGlobe from "cobe";
 import { useSpring } from 'react-spring';
 import { useIsVisible } from 'react-is-visible';
 
-import { type Location, focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
+import { type Location, globeConfig, springConfig, focusTimeoutDuration, focusSpeed, doublePi } from './globe.config';
 import styles from './globe.module.scss';
 
 interface GlobeProps {
@@ -23,12 +23,7 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
 
     const [{ r }, api] = useSpring(() => ({
         r: 0,
-        config: {
-            mass: 1,
-            tension: 280,
-            friction: 40,
-            precision: 0.001,
-        },
+        config: springConfig,
     }));
 
     const setFocus = React.useCallback((location: Location) => {
@@ -112,52 +107,45 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
         const globe = createGlobe(
             canvasRef.current,
             {
-                devicePixelRatio: 2,
-                width: width * 2,
-                height: width * 2,
-                phi: 0,
-                theta: 0.3,
-                dark: 1,
-                diffuse: 3,
-                mapSamples: 16000,
-                mapBrightness: 1.2,
-                baseColor: [1, 1, 1],
-                markerColor: [251 / 255, 100 / 255, 21 / 255],
-                glowColor: [1.2, 1.2, 1.2],
-                markers: locations.map((loc) => ({
-                    location: [loc.latitude, loc.longitude],
-                    size: 0.1,
-                })),
-                onRender: (state) => {
-                    state.width = width * 2;
-                    state.height = width * 2;
+                ...globeConfig,
+                ...{
+                    width: width * 2,
+                    height: width * 2,
+                    markers: locations.map((loc) => ({
+                        location: [loc.latitude, loc.longitude],
+                        size: 0.2,
+                    })),
+                    onRender: (state) => {
+                        state.width = width * 2;
+                        state.height = width * 2;
 
-                    // Focus on location
-                    if (focusPhi.current) {
-                        const distPositive = (focusPhi.current - phi + doublePi) % doublePi;
-                        const distNegative = (phi - focusPhi.current + doublePi) % doublePi;
+                        // Focus on location
+                        if (focusPhi.current) {
+                            const distPositive = (focusPhi.current - phi + doublePi) % doublePi;
+                            const distNegative = (phi - focusPhi.current + doublePi) % doublePi;
 
-                        if (distPositive < distNegative) {
-                            phi += distPositive * focusSpeed;
-                        } else {
-                            phi -= distNegative * focusSpeed;
+                            if (distPositive < distNegative) {
+                                phi += distPositive * focusSpeed;
+                            } else {
+                                phi -= distNegative * focusSpeed;
+                            }
+
+                            state.phi = phi;
+                            return;
                         }
 
-                        state.phi = phi;
-                        return;
-                    }
+                        // Dragging
+                        if (pointerInteracting.current) {
+                            state.phi = phi + r.get();
+                            return;
+                        }
 
-                    // Dragging
-                    if (pointerInteracting.current) {
+                        // Auto-rotate
+                        phi += 0.01;
                         state.phi = phi + r.get();
-                        return;
                     }
-
-                    // Auto-rotate
-                    phi += 0.01;
-                    state.phi = phi + r.get();
-                }
-            }
+                },
+            },
         );
 
         globe.toggle(isGlobeVisible);

@@ -4,6 +4,7 @@ import TextScrambler from 'components/text-scrambler';
 import LinkGroup from 'components/link-group';
 
 import SplashBg from './assets/SplashBg.png';
+import SplashBgMobile from './assets/SplashBgMobile.png';
 import { defaultTitle, titles, scrambleTimeout } from './splash.config';
 import styles from './splash.module.scss';
 
@@ -62,6 +63,7 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
     return (
         <div className={styles.splash}>
             <img src={SplashBg} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImg} style={{ opacity: `${opacity}%` }} />
+            <img src={SplashBgMobile} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImgMobile} style={{ opacity: `${opacity}%` }} />
             <div className={styles.gradient} style={{ opacity: `${opacity}%` }}/>
             <div className={styles.splashContent} style={{ opacity: `${opacity}%` }}>
                 <div className={styles.messageBox} >

@@ -3,50 +3,78 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  //width: 100%;
+  //max-width: 460px;
   width: 100%;
-  max-width: 460px;
+  max-width: calc(100% - 200px);
   background-color: var(--color-highlight-1);
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-radius: 4px 8px 8px 4px;
+
+  @media (max-width: 1200px) {
+    max-width: calc(100% - 100px);
+  }
+
+  @media (max-width: 480px) {
+    max-width: 320px;
+    margin: 0 24px;
+    border-radius: 8px;
+  }
 }
 
 .handle {
   position: absolute;
-  top: 26px;
-  left: -63px;
-  width: 125px;
-  height: 125px;
+  top: 22px;
+  left: -50px;
+  width: 102px;
+  height: 102px;
   background-color: var(--color-highlight-1);
   transform: rotate(45deg);
   border-bottom-left-radius: 8px;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }
 
 .hole {
   position: absolute;
-  left: -52px;
+  left: -50px;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: #000;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 }
 
 .travelTagContent {
   width: 100%;
-  margin: 28px;
-  padding: 28px;
+  margin: 20px;
+  padding: 20px;
   text-align: left;
   background-color: #fff;
   border-radius: 8px;
   color: #333;
   z-index: 1;
+
+  @media (max-width: 1024px) {
+    margin: 4px;
+    padding: 8px;
+  }
 }
 
 .fieldContainer {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 12px;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -57,19 +85,35 @@
   flex-basis: 100px;
   font-size: 20px;
   font-weight: bold;
+
+  @media (max-width: 480px) {
+    flex-basis: 70px;
+    font-size: 14px;
+  }
 }
 
 .fieldValue {
   flex-grow: 1;
   height: 20px;
-  line-height: 20px;
+  line-height: 26px;
   padding: 0 12px;
-  font-size: 20px;
+  font-size: 16px;
   font-style: italic;
   border-bottom: 2px solid #333;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    border-width: 1px;
+    line-height: 28px;
+  }
 }
 
 .smallText {
-  font-size: 14px;
-  line-height: 25px;
+  font-size: 12px;
+  line-height: 29px;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    line-height: 28px;
+  }
 }

@@ -6,8 +6,7 @@
   display: flex;
   width: 100%;
   height: 100vh;
-  //background-color: #c4d6e7;
-  background-color: #8eb0d1 ;
+  background-color: var(--color-highlight-2);
 }
 
 .bgImg {
@@ -19,9 +18,24 @@
   object-position: center;
   transition: opacity 200ms;
 
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.bgImgMobile {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 200ms;
+
+  @media (max-width: 1024px) {
+    display: block;
     object-fit: cover;
-    object-position: bottom right;
+    object-position: center;
   }
 }
 

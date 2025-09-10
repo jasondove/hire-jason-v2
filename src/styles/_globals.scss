@@ -1,9 +1,7 @@
 :root {
   --color-highlight-1: #fe6e00;
-  --color-highlight-2: #34a5e3;
-  --color-text: #2a2a2a;
-  --text-shadow: 1px 1px 4px #4a4a4a;
-
+  --color-highlight-2: #2a2a2a;
+  --color-text: #333;
   --font-size-regular: 20px;
   --line-height-regular: 24px;
   --font-size-regular-mobile: 16px;
@@ -12,7 +10,6 @@
   --line-height-large: 64px;
   --font-size-large-mobile: 28px;
   --line-height-large-mobile: 32px;
-
   --header-height: 72px;
   --header-height-mobile: 60px;
   --page-width: 1280px;
@@ -20,7 +17,4 @@
   --page-padding-x-mobile: 8px;
   --content-top-margin: 96px;
   --content-top-margin-mobile: 48px;
-
-
-  --breakpoint-mobile: 480px;
 }

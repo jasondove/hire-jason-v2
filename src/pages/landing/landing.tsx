@@ -1,9 +1,8 @@
 import React from 'react';
-import Splash from "components/splash";
-import Locations from "components/locations";
+import Splash from 'components/splash';
+import Locations from 'components/locations';
 
 import { topDistanceOpacityThreshold } from './landing.config';
-// import styles from './landing.module.scss';
 
 const Landing: React.FunctionComponent = () => {
     const [ isHeaderLinksOnTop, setIsHeaderLinksOnTop ] = React.useState(false);

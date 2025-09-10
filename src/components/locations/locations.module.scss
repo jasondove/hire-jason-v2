@@ -24,7 +24,7 @@
   padding: 0 var(--page-padding-x);
   color: #fff;
 
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding: 0 var(--page-padding-x-mobile);
   }
@@ -32,9 +32,10 @@
 
 .globeContainer {
   flex-basis: 50%;
+  flex-shrink: 0;
 
-  @media (max-width: 480px) {
-    flex-basis: 100%;
+  @media (max-width: 1024px) {
+    flex-basis: auto;
     width: 100%;
   }
 }
@@ -47,7 +48,7 @@
   max-width: 600px;
   text-align: right;
 
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     flex-basis: 100%;
     width: 100%;
     align-items: center;
@@ -58,9 +59,15 @@
   @include mixins.text-large;
   margin-bottom: 20px;
 
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+
   @media (max-width: 480px) {
-    font-size: 24px;
-    line-height: 28px;
+    @include mixins.text-large-mobile;
+    margin-bottom: 12px;
     text-align: center;
   }
 }
@@ -72,15 +79,19 @@
   margin-left: auto;
   text-align: right;
 
-  @media (max-width: 480px) {
-    //margin: 0 16px;
+  @media (max-width: 1024px) {
     margin: 0 0 16px;
     text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    @include mixins.text-regular-mobile;
+    margin: 0 0 16px;
   }
 }
 
 .locationsListSetup {
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 }

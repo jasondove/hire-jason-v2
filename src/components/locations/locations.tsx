@@ -5,7 +5,7 @@ import HoverText from 'components/hover-text';
 import TravelTag from 'components/travel-tag';
 import { type Location } from 'components/globe/globe.config';
 
-import { myLocation, locations } from './locations.config';
+import { myLocation, locations, viewportMinHeightForTag } from './locations.config';
 import styles from './locations.module.scss';
 
 interface LocationsProps {
@@ -16,6 +16,7 @@ interface LocationsProps {
 
 const Locations: React.FunctionComponent<LocationsProps> = (props) => {
     const { linksRef, isLinksVisible, isHeaderInPlace } = props;
+    const isViewportTooShortForTag = React.useRef<boolean>(false);
     const [possibleLocations, setPossibleLocations] = React.useState<Location[]>([]);
     const [focusLocation, setFocusLocation] = React.useState<Location | undefined>(undefined);
 
@@ -38,9 +39,16 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
         setFocusLocation(undefined);
     }, []);
 
+    const onResize = React.useCallback(() => {
+        isViewportTooShortForTag.current = window.outerHeight < viewportMinHeightForTag;
+    }, []);
+
     const reloadLocations = React.useCallback(() => {
         setPossibleLocations(locations.sort(() => 0.5 - Math.random()));
     }, [locations]);
+
+    onResize();
+    window.addEventListener('resize', onResize);
 
     React.useEffect(() => {
         if (!possibleLocations.length) {
@@ -77,7 +85,9 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                             I've worked with talented people from all over.
                         </span>
                     </p>
-                    <TravelTag location={focusLocation?.name || ''} position={focusLocation?.position || ' '} />
+                    {isViewportTooShortForTag.current !== true && (
+                        <TravelTag location={focusLocation?.name || ''} position={focusLocation?.position || ' '} />
+                    )}
                 </div>
             </div>
         </div>

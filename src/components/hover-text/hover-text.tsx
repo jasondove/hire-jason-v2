@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { activeTimeout } from './hover-text.config';
+import { activeTimeoutDuration } from './hover-text.config';
 import styles from './hover-text.module.scss';
 
 interface HoverTextProps {
@@ -13,6 +13,7 @@ const HoverText: React.FunctionComponent<HoverTextProps> = (props) => {
     const { children: text, onClick } = props;
     const [ isHovering, setIsHovering ] = React.useState(false);
     const [ isActive, setIsActive ] = React.useState(false);
+    const activeTimeout = React.useRef<NodeJS.Timeout>(undefined);
 
     const handleClick = React.useCallback(() => {
         if (onClick) {
@@ -30,10 +31,11 @@ const HoverText: React.FunctionComponent<HoverTextProps> = (props) => {
 
     const handleTouchStart = React.useCallback(() => {
         setIsActive(true);
-        setTimeout(() => {
+        activeTimeout.current = setTimeout(() => {
             setIsActive(false);
             setIsHovering(false);
-        }, activeTimeout);
+            clearTimeout(activeTimeout.current);
+        }, activeTimeoutDuration);
     }, []);
 
     return (

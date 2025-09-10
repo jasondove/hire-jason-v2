@@ -1,3 +1,3 @@
-const activeTimeout = 1600; // ms
+const activeTimeoutDuration = 1600; // ms
 
-export { activeTimeout };
+export { activeTimeoutDuration };

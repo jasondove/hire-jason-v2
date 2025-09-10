@@ -1,11 +1,11 @@
 .linkGroup {
   display: flex;
   align-items: center;
-  max-width: 300px;
+  max-width: 220px;
   height: var(--header-height);
 
   @media (max-width: 480px) {
-    max-width: 240px;
+    max-width: 180px;
     height: var(--header-height-mobile);
     margin: 0 auto;
   }

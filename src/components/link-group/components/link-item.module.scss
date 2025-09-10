@@ -10,6 +10,15 @@
   }
 }
 
+@keyframes shine {
+  0% {
+    background-position: bottom right;
+  }
+  100% {
+    background-position: top left;
+  }
+}
+
 .linkItem {
   display: inline-flex;
   align-items: center;
@@ -22,7 +31,14 @@
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    animation: bounce 600ms ease-out;
+    background: linear-gradient(
+      135deg,
+      #fff 33%,
+      rgba(255,255,255,0.4) 50%,
+      #fff 66%
+    ) var(--color-highlight-1);
+    background-size: 300% 300%;
+    animation: bounce 600ms ease-out, shine 1200ms;
   }
 
   @media (max-width: 480px) {
@@ -30,7 +46,6 @@
     height: 36px;
   }
 }
-
 
 .forceAnimation {
   animation: bounce 600ms ease-out;

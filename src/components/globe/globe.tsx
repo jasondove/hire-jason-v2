@@ -164,27 +164,15 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
 
     return (
         <div className={styles.globe}>
-            <div style={{
-                width: '100%',
-                maxWidth: 600,
-                aspectRatio: 1,
-                margin: 'auto',
-                position: 'relative',
-            }}>
+            <div className={styles.globeContent}>
                 <canvas
+                    className={styles.globeCanvas}
                     ref={canvasRef}
                     onPointerDown={handlePointerActive}
                     onPointerUp={handlePointerInactive}
                     onPointerOut={handlePointerInactive}
                     onMouseMove={handleMouseMove}
                     onTouchMove={handleTouchMove}
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        cursor: 'grab',
-                        contain: 'layout paint size',
-                        transition: 'opacity 1s ease',
-                    }}
                 />
             </div>
         </div>

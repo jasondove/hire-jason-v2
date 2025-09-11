@@ -16,9 +16,9 @@ html {
   overflow: hidden;
 
   @media (orientation: landscape) {
-    height: 800px;
-    overflow: scroll;
-    scroll-behavior: smooth;
+    //height: 800px;
+    //overflow: scroll;
+    //scroll-behavior: smooth;
   }
 }
 
@@ -28,12 +28,12 @@ body {
   overflow: hidden;
 
   @media (orientation: landscape) {
-    height: 800px;
+    //height: 800px;
   }
 }
 
 #root {
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   scroll-behavior: smooth;
 }

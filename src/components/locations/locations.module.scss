@@ -12,7 +12,7 @@
   background-size: cover;
 
   @media (orientation: landscape) {
-    height: calc(800px - var(--header-height-mobile));
+    //height: calc(800px - var(--header-height-mobile));
   }
 
   @media (max-width: 480px) {

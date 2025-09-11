@@ -11,4 +11,29 @@
 
 html {
   min-width: 320px;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+
+  @media (orientation: landscape) {
+    height: 800px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+
+  @media (orientation: landscape) {
+    height: 800px;
+  }
+}
+
+#root {
+  height: 100%;
+  overflow: scroll;
+  scroll-behavior: smooth;
 }

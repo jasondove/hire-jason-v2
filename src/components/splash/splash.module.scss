@@ -6,7 +6,13 @@
   display: flex;
   width: 100%;
   height: 100vh;
+  height: 100svh;
   background-color: var(--color-highlight-2);
+
+  @media (orientation: landscape) {
+    position: relative;
+    height: 800px;
+  }
 }
 
 .bgImg {
@@ -45,6 +51,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
+  height: 100svh;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.2) 0,
@@ -88,19 +95,19 @@
 
   @media (max-width: 480px) {
     @include mixins.text-regular-mobile;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     text-align: center;
   }
 }
 
 .name {
   @include mixins.text-large;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   color: var(--color-highlight-1);
 
   @media (max-width: 480px) {
     @include mixins.text-large-mobile;
-    margin-bottom: 0;
+    margin-bottom: 8px;
     text-align: center;
   }
 }
@@ -111,7 +118,7 @@
 
   @media (max-width: 480px) {
     @include mixins.text-large-mobile;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     text-align: center;
   }
 }
@@ -124,7 +131,6 @@
   @media (max-width: 480px) {
     @include mixins.text-regular-mobile;
     margin-bottom: 12px;
-    padding: 0 16px;
     text-align: center;
   }
 }

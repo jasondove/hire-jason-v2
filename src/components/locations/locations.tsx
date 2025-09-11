@@ -16,7 +16,7 @@ interface LocationsProps {
 
 const Locations: React.FunctionComponent<LocationsProps> = (props) => {
     const { linksRef, isLinksVisible, isHeaderInPlace } = props;
-    const isViewportTooShortForTag = React.useRef<boolean>(false);
+    const shouldShowTag = React.useRef<boolean>(false);
     const [possibleLocations, setPossibleLocations] = React.useState<Location[]>([]);
     const [focusLocation, setFocusLocation] = React.useState<Location | undefined>(undefined);
 
@@ -39,13 +39,13 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
         setFocusLocation(undefined);
     }, []);
 
-    const onResize = React.useCallback(() => {
-        isViewportTooShortForTag.current = window.outerHeight < viewportMinHeightForTag;
-    }, []);
-
     const reloadLocations = React.useCallback(() => {
         setPossibleLocations(locations.sort(() => 0.5 - Math.random()));
     }, [locations]);
+
+    const onResize = React.useCallback(() => {
+        shouldShowTag.current = window.outerHeight < viewportMinHeightForTag || window.outerHeight < window.outerWidth;
+    }, []);
 
     onResize();
     window.addEventListener('resize', onResize);
@@ -69,7 +69,7 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                 </div>
                 <div className={styles.messageBox}>
                     <h3 className={styles.messageHeader}>
-                        <div>
+                        <div className={styles.imIn}>
                             I'm in <HoverText onClick={handleLocationClick(myLocation)}>Brooklyn.</HoverText>
                         </div>
                         <div>
@@ -85,7 +85,7 @@ const Locations: React.FunctionComponent<LocationsProps> = (props) => {
                             I've worked with talented people from all over.
                         </span>
                     </p>
-                    {isViewportTooShortForTag.current !== true && (
+                    {shouldShowTag.current !== true && (
                         <TravelTag location={focusLocation?.name || ''} position={focusLocation?.position || ' '} />
                     )}
                 </div>

@@ -11,6 +11,7 @@ const titles: string[] = [
     "I appreciate a good Jest.",
     "I pay my technical debts.",
     "I'll git well soon.",
+    "I'm a code de-viber",
 ];
 
 const scrambleTimeout = 2000; // ms

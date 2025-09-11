@@ -39,16 +39,15 @@ const Landing: React.FunctionComponent = () => {
 
     React.useEffect(() => {
         handleScroll();
+        document.querySelector('#root')?.addEventListener('scroll', handleScroll);
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => document.querySelector('#root')?.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
         <>
             <Splash opacity={splashOpacity} linksRef={linksSplashRef} isLinksVisible={!isHeaderLinksOnTop} />
-            <Locations linksRef={linksHeaderRef} isLinksVisible={isHeaderLinksOnTop} isHeaderInPlace={isHeaderInPlace} />
+            <Locations linksRef={linksHeaderRef} isLinksVisible={isHeaderLinksOnTop} isHeaderInPlace={isHeaderInPlace} onScroll={handleScroll} />
         </>
     );
 };

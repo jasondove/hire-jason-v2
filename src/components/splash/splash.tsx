@@ -62,8 +62,18 @@ const Splash: React.FunctionComponent<SplashProps> = (props) => {
 
     return (
         <div className={styles.splash}>
-            <img src={SplashBg} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImg} style={{ opacity: `${opacity}%` }} />
-            <img src={SplashBgMobile} alt="new york skyline with Jason Dove in the foreground" className={styles.bgImgMobile} style={{ opacity: `${opacity}%` }} />
+            <img
+                className={styles.bgImg}
+                src={SplashBg}
+                alt="new york skyline with Jason Dove in the foreground"
+                style={{ opacity: `${opacity}%` }}
+            />
+            <img
+                className={styles.bgImgMobile}
+                src={SplashBgMobile}
+                alt="new york skyline with Jason Dove in the foreground"
+                style={{ opacity: `${opacity}%` }}
+            />
             <div className={styles.gradient} style={{ opacity: `${opacity}%` }}/>
             <div className={styles.splashContent} style={{ opacity: `${opacity}%` }}>
                 <div className={styles.messageBox} >

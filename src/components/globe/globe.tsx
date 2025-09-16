@@ -134,14 +134,11 @@ const Globe: React.FunctionComponent<GlobeProps> = (props) => {
                             return;
                         }
 
-                        // Dragging
-                        if (pointerInteracting.current) {
-                            state.phi = phi + r.get();
-                            return;
+                        // Auto-rotate if not dragging
+                        if (!pointerInteracting.current) {
+                            phi += 0.01;
                         }
 
-                        // Auto-rotate
-                        phi += 0.01;
                         state.phi = phi + r.get();
                     }
                 },
